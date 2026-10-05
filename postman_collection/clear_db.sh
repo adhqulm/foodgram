@@ -11,19 +11,19 @@ BASE_DIR="$(dirname "${PATH_TO_MANAGE_PY}")";
 cd $BASE_DIR
 status=$?;
 if [ $status -ne 0 ]; then
-    echo "Убедитесь, что в проекте содержится только один файл manage.py";
+    echo "Make sure the project contains only one manage.py file";
     exit $status;
 fi
 
 echo "from django.contrib.auth import get_user_model; User = get_user_model(); \
-     usernames_list = ['vasya.ivanov', 'second-user', 'third-user-username', 'NoEmail', 'NoFirstName', 'NoLastName', 'NoPassword', 'TooLongEmail', \
+     usernames_list = ['john.smith', 'second-user', 'third-user-username', 'NoEmail', 'NoFirstName', 'NoLastName', 'NoPassword', 'TooLongEmail', \
      'the-username-that-is-150-characters-long-and-should-not-pass-validation-if-the-serializer-is-configured-correctly-otherwise-the-current-test-will-fail-', \
      'TooLongFirstName', 'TooLongLastName', 'InvalidU$ername', 'EmailInUse']; \
      delete_num, _ = User.objects.filter(username__in=usernames_list).delete(); \
      exit(1) if not delete_num else exit(0);" | $python manage.py shell
 status=$?;
 if [ $status -ne 0 ]; then
-    echo "Ошибка при удалении записей, созданных в БД на предыдущем запуске postman-коллекции: объекты отсутствуют либо произошел сбой.";
+    echo "Error deleting records created in the database by the previous Postman collection run: the objects are missing or something went wrong.";
     exit $status;
 fi
-echo "База данных очищена."
+echo "Database cleaned."

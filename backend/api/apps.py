@@ -1,4 +1,4 @@
-"""Конфигурация приложения API."""
+"""API app configuration."""
 
 from django.apps import AppConfig
 

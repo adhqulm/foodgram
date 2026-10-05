@@ -1,27 +1,27 @@
-"""Модели приложения пользователей."""
+"""Models for the users app."""
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 class User(AbstractUser):
-    """Кастомная модель пользователя."""
+    """Custom user model."""
 
     email = models.EmailField(
-        'Адрес электронной почты',
+        'Email address',
         max_length=254,
         unique=True
     )
     first_name = models.CharField(
-        'Имя',
+        'First name',
         max_length=150
     )
     last_name = models.CharField(
-        'Фамилия',
+        'Last name',
         max_length=150
     )
     avatar = models.ImageField(
-        'Аватар',
+        'Avatar',
         upload_to='avatars/',
         null=True,
         blank=True
@@ -31,39 +31,39 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
     class Meta:
-        """Метаданные модели User."""
+        """User model metadata."""
 
         ordering = ['id']
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
 
     def __str__(self):
-        """Возвращает строковое представление пользователя."""
+        """Return the string representation of the user."""
         return self.username
 
 
 class Subscription(models.Model):
-    """Модель подписки на авторов."""
+    """Model for subscriptions to authors."""
 
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='follower',
-        verbose_name='Подписчик'
+        verbose_name='Subscriber'
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='following',
-        verbose_name='Автор'
+        verbose_name='Author'
     )
 
     class Meta:
-        """Метаданные модели Subscription."""
+        """Subscription model metadata."""
 
         ordering = ['-id']
-        verbose_name = 'Подписка'
-        verbose_name_plural = 'Подписки'
+        verbose_name = 'Subscription'
+        verbose_name_plural = 'Subscriptions'
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'author'],
@@ -76,5 +76,5 @@ class Subscription(models.Model):
         ]
 
     def __str__(self):
-        """Возвращает строковое представление подписки."""
-        return f'{self.user} подписан на {self.author}'
+        """Return the string representation of the subscription."""
+        return f'{self.user} is subscribed to {self.author}'

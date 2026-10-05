@@ -48,11 +48,11 @@ const SingleCard = ({ loadItem, updateOrders }) => {
           })
           .catch(() => {
             /**
-             * В Safari не работает запись в буфер внутри асинхронного запроса,
-             * поэтому добавил отдельную плашку на этот случай
+             * Safari does not allow writing to the clipboard inside an async request,
+             * so a separate notice is shown for that case
              */
             setNotificationError({
-              text: `Ваша ссылка: ${shortLink}`,
+              text: `Your link: ${shortLink}`,
               position: "40px",
             });
           });
@@ -96,7 +96,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
       <Container>
         <MetaTags>
           <title>{name}</title>
-          <meta name="description" content={`Фудграм - ${name}`} />
+          <meta name="description" content={`Foodgram - ${name}`} />
           <meta property="og:title" content={name} />
         </MetaTags>
         <div className={styles["single-card"]}>
@@ -114,7 +114,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
                   clickHandler={handleCopyLink}
                   className={cn(styles["single-card__save-button"])}
                   data-tooltip-id="tooltip-copy"
-                  data-tooltip-content="Скопировать прямую ссылку на рецепт"
+                  data-tooltip-content="Copy a direct link to the recipe"
                   data-tooltip-place="top"
                 >
                   <Icons.CopyLinkIcon />
@@ -134,8 +134,8 @@ const SingleCard = ({ loadItem, updateOrders }) => {
                       data-tooltip-id="tooltip-save"
                       data-tooltip-content={
                         is_favorited
-                          ? "Удалить из избранного"
-                          : "Добавить в избранное"
+                          ? "Remove from favorites"
+                          : "Add to favorites"
                       }
                       data-tooltip-place="bottom"
                     >
@@ -149,7 +149,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
 
             <div className={styles["single-card__extra-info"]}>
               <TagsContainer tags={tags} />
-              <p className={styles["single-card__text"]}>{cooking_time} мин.</p>
+              <p className={styles["single-card__text"]}>{cooking_time} min</p>
               <p className={styles["single-card__text_with_link"]}>
                 <div className={styles["single-card__text"]}>
                   <div
@@ -190,8 +190,8 @@ const SingleCard = ({ loadItem, updateOrders }) => {
                     data-tooltip-id="tooltip-subscribe"
                     data-tooltip-content={
                       author.is_subscribed
-                        ? "Отписаться от автора"
-                        : "Подписаться на автора"
+                        ? "Unsubscribe from author"
+                        : "Subscribe to author"
                     }
                     data-tooltip-place="bottom"
                   >
@@ -220,11 +220,11 @@ const SingleCard = ({ loadItem, updateOrders }) => {
                   {is_in_shopping_cart ? (
                     <>
                       <Icons.CheckIcon />
-                      Рецепт добавлен
+                      Recipe added
                     </>
                   ) : (
                     <>
-                      <Icons.PlusIcon /> Добавить в покупки
+                      <Icons.PlusIcon /> Add to shopping list
                     </>
                   )}
                 </Button>
@@ -234,7 +234,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
                   href={`${url}/edit`}
                   className={styles["single-card__edit"]}
                 >
-                  Редактировать рецепт
+                  Edit recipe
                 </Button>
               )}
             </div>
@@ -243,7 +243,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
           </div>
         </div>
         <Notification
-          text="Ссылка скопирована"
+          text="Link copied"
           style={{ right: notificationPosition }}
         />
         <Notification

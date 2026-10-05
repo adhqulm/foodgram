@@ -1,45 +1,45 @@
-## Postman-коллекция для проверки API
+## Postman collection for API testing
 
-Файл `foodgram.postman_collection.json` содержит postman-коллекцию - набор заранее подготовленных запросов для проверки работы API.
+The `foodgram.postman_collection.json` file contains a Postman collection: a set of prepared requests for testing the API.
 
-## Подготовка Django-проекта к запуску коллекции:
-1. Проверьте, что виртуальное окружение развёрнуто и активировано, зависимости проекта установлены.
-2. Для локальной проверки API в настройках `settings.py` подключите в качестве базы данных SQLite3 
-и установите значение `DEBUG = True`.
-3. Выполните миграции; создайте в базе данных как минимум 2 ингредиента и 3 тега.
-4. Запустите веб-сервер разработки.
+## Preparing the Django project to run the collection:
+1. Make sure the virtual environment is created and activated, and the project dependencies are installed.
+2. To test the API locally, set SQLite3 as the database in `settings.py`
+and set `DEBUG = True`.
+3. Run migrations; create at least 2 ingredients and 3 tags in the database.
+4. Start the development server.
 
-*После подготовки проекта создайте копию файла базы данных `db.sqlite3`: 
-она может пригодиться в случае сбоя в работе.*
+*After preparing the project, make a copy of the `db.sqlite3` database file:
+it may come in handy if something goes wrong.*
 
-## Загрузка коллекции в Postman:
+## Importing the collection into Postman:
 
-1. Запустите Postman.
-2. В левом верхнем углу нажмите `File` -> `Import`.
-3. Во всплывающем окне будет предложено перетащить в него файл с коллекцией либо выбрать файл через окно файлового менеджера.
-Загрузите файл `foodgram.postman_collection.json` в Postman.
+1. Open Postman.
+2. In the top left corner, click `File` -> `Import`.
+3. In the popup, drag in the collection file or choose it with the file browser.
+Import the `foodgram.postman_collection.json` file into Postman.
 
-## Запуск коллекции:
+## Running the collection:
 
-1. После выполнения предыдущих шагов, в левой части окна Postman во вкладке `Collections` появилась импортированная коллекция.
-Наведите на неё курсор, нажмите на три точки напротив названия коллекции и в выпадающем списке выберите `Run collection`. В центре экрана появится список запросов коллекции,
-а в правой части экрана - меню для настройки параметров запуска.
-2. В правом меню включите функцию `Persist responses for a session` - это даст возможность посмотреть ответы API после запуска коллекции.
-3. Нажмите кнопку `Run <название коллекции>`.
-4. В центре экрана отобразится результат запуска коллекции и тестов. Провалившиеся тесты можно отфильтровать, перейдя во вкладку `Failed`.
-Посмотрите детали выполненного запроса и полученного ответа: для этого нажмите на тест.
+1. After the previous steps, the imported collection appears in the `Collections` tab on the left side of the Postman window.
+Hover over it, click the three dots next to the collection name and choose `Run collection` from the dropdown. The list of requests in the collection appears in the center of the screen,
+and the run settings menu appears on the right.
+2. In the right menu, turn on `Persist responses for a session` so you can view the API responses after the run.
+3. Click `Run <collection name>`.
+4. The results of the run and its tests appear in the center of the screen. You can filter failed tests with the `Failed` tab.
+Click a test to see the details of the request and the response.
 
-## Повторный запуск коллекции:
-1. Перейдете в директорию `postman_collection` в корне проекта.
-2. При активированном виртуальном окружении проекта, запустите скрипт для очистки базы данных от объектов, созданных при выполнении запросов коллекции: `bash clear_db.sh`.  
-При выполнении скрипта будут удалены все пользователи и объекты, созданные при предыдущем запуске коллекции (при условии корректной настройки параметров `on_delete` в моделях проекта).
+## Running the collection again:
+1. Go to the `postman_collection` directory in the project root.
+2. With the project's virtual environment activated, run the script that removes the objects created by the collection from the database: `bash clear_db.sh`.  
+The script deletes all users and objects created during the previous run (as long as `on_delete` is configured correctly in the project's models).
   
-При сбое очистки базы данных, используйте резервную копию файла `db.sqlite3`: замените текущий файл базы данных на эту копию. 
-А можно создать базу данных заново и наполнить её объектами, необходимыми для корректного запуска коллекции (как описано в п.3 раздела _Подготовка Django-проекта к запуску коллекции_).
+If cleaning the database fails, use the backup copy of `db.sqlite3`: replace the current database file with it.
+You can also recreate the database and fill it with the objects the collection needs (as described in step 3 of _Preparing the Django project to run the collection_).
 
-## Ограничения от разработчиков Postman
-В бесплатной версии программы Postman есть техническое ограничение: коллекцию можно беспрепятственно запускать 25 раз в месяц.  
-После исчерпания этого лимита Postman не превратится в тыкву: он по-прежнему будет запускать коллекции, но запуск иногда будет блокироваться на 30 секунд (иногда дважды подряд), и в это время в интерфейсе программы будет появляться предложение приобрести платную версию.  
-Вы можете купить платную версию, а можете просто продолжить пользоваться бесплатной версией, время от времени прерываясь на просмотр рекламы.
+## Postman limits
+The free version of Postman has a technical limit: you can run a collection without interruption 25 times a month.  
+After that, Postman still runs collections, but a run may sometimes be blocked for 30 seconds (occasionally twice in a row) while the app offers you the paid version.  
+You can buy the paid version or just keep using the free one and wait out the occasional ad.
 
-Для отправки отдельных запросов никаких ограничений нет.
+There are no limits on sending individual requests.

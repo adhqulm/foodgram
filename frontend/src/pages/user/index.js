@@ -87,14 +87,14 @@ const UserPage = ({ updateOrders }) => {
           <title>
             {user
               ? `${user.first_name} ${user.last_name}`
-              : "Страница пользователя"}
+              : "User page"}
           </title>
           <meta
             name="description"
             content={
               user
-                ? `Фудграм - ${user.first_name} ${user.last_name}`
-                : "Фудграм - Страница пользователя"
+                ? `Foodgram - ${user.first_name} ${user.last_name}`
+                : "Foodgram - User page"
             }
           />
           <meta
@@ -102,7 +102,7 @@ const UserPage = ({ updateOrders }) => {
             content={
               user
                 ? `${user.first_name} ${user.last_name}`
-                : "Страница пользователя"
+                : "User page"
             }
           />
         </MetaTags>
@@ -143,7 +143,7 @@ const UserPage = ({ updateOrders }) => {
                 }}
               >
                 <Icons.AddUser />{" "}
-                {subscribed ? "Отписаться от автора" : "Подписаться на автора"}
+                {subscribed ? "Unsubscribe from author" : "Subscribe to author"}
               </Button>
             )}
           </div>

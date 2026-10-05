@@ -22,20 +22,20 @@ const UpdateAvatar = ({
   return <Main withBG asFlex>
     <Container className={styles.center}>
       <MetaTags>
-        <title>Регистрация</title>
-        <meta name="description" content="Фудграм - Редактирование аватара" />
-        <meta property="og:title" content="Редактирование аватара" />
+        <title>Sign up</title>
+        <meta name="description" content="Foodgram - Edit avatar" />
+        <meta property="og:title" content="Edit avatar" />
       </MetaTags>
       <Form
         className={styles.form}
         onSubmit={e => {
           e.preventDefault()
           if (checkIfDisabled()) {
-            return alert('Аватар не выбран или не заменен')
+            return alert('No avatar selected or it was not changed')
           }
           onAvatarChange({ file: avatarFile })
         }}>
-        <FormTitle>Аватар</FormTitle>
+        <FormTitle>Avatar</FormTitle>
         <FileInput
           onChange={file => {
             setUpdated(true)
@@ -51,7 +51,7 @@ const UpdateAvatar = ({
           type='submit'
           className={styles.button}
         >
-          Обновить аватар
+          Update avatar
         </Button>
       </Form>
     </Container>

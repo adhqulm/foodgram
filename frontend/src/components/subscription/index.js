@@ -4,16 +4,7 @@ import { Button, LinkComponent, Popup } from "../index";
 import DefaultImage from "../../images/userpic-icon.jpg";
 
 const countForm = (number, titles) => {
-  number = Math.abs(number);
-  if (Number.isInteger(number)) {
-    let cases = [2, 0, 1, 1, 1, 2];
-    return titles[
-      number % 100 > 4 && number % 100 < 20
-        ? 2
-        : cases[number % 10 < 5 ? number % 10 : 5]
-    ];
-  }
-  return titles[1];
+  return Math.abs(number) === 1 ? titles[0] : titles[1];
 };
 
 const Subscription = ({
@@ -35,7 +26,7 @@ const Subscription = ({
     <div className={styles.subscription}>
       {toDelete && (
         <Popup
-          title="Вы уверены, что хотите отписаться?"
+          title="Are you sure you want to unsubscribe?"
           onSubmit={() => {
             removeSubscription({
               id,
@@ -83,7 +74,7 @@ const Subscription = ({
                         {recipe.name}
                       </h3>
                       <p className={styles.subscriptionRecipeText}>
-                        {recipe.cooking_time} мин.
+                        {recipe.cooking_time} min
                       </p>
                     </div>
                   }
@@ -95,10 +86,9 @@ const Subscription = ({
             <li className={styles.subscriptionMore}>
               <LinkComponent
                 className={styles.subscriptionLink}
-                title={`Еще ${moreRecipes} ${countForm(moreRecipes, [
-                  "рецепт",
-                  "рецепта",
-                  "рецептов",
+                title={`${moreRecipes} more ${countForm(moreRecipes, [
+                  "recipe",
+                  "recipes",
                 ])}...`}
                 href={`/user/${id}`}
               />
@@ -128,7 +118,7 @@ const Subscription = ({
               stroke-linejoin="round"
             />
           </svg>
-          Отписаться
+          Unsubscribe
         </Button>
       </div>
     </div>

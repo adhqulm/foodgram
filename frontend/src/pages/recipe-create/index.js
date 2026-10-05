@@ -44,7 +44,7 @@ const RecipeCreate = ({ onEdit }) => {
       ingredientValue.amount !== "" &&
       !/^\d+$/.test(ingredientValue.amount)
     ) {
-      return setIngredientError("Количество ингредиента должно быть целым числом");
+      return setIngredientError("Ingredient amount must be a whole number");
     }
 
     if (
@@ -52,11 +52,11 @@ const RecipeCreate = ({ onEdit }) => {
       ingredientValue.name === "" ||
       !ingredientValue.id
     ) {
-      return setIngredientError("Ингредиент не выбран");
+      return setIngredientError("No ingredient selected");
     }
 
     if (recipeIngredients.find(({ name }) => name === ingredientValue.name)) {
-      return setIngredientError("Ингредиент уже выбран");
+      return setIngredientError("Ingredient already selected");
     }
 
     setRecipeIngredients([...recipeIngredients, ingredientValue]);
@@ -104,12 +104,12 @@ const RecipeCreate = ({ onEdit }) => {
       recipeFile === "" ||
       recipeFile === null
     ) {
-      setSubmitError({ submitError: "Заполните все поля!" });
+      setSubmitError({ submitError: "Fill in all fields!" });
       return true;
     }
 
     if (value.filter((item) => item.value).length === 0) {
-      setSubmitError({ submitError: "Выберите хотя бы один тег" });
+      setSubmitError({ submitError: "Select at least one tag" });
       return true;
     }
     return false;
@@ -119,11 +119,11 @@ const RecipeCreate = ({ onEdit }) => {
     <Main>
       <Container>
         <MetaTags>
-          <title>Создание рецепта</title>
-          <meta name="description" content="Фудграм - Создание рецепта" />
-          <meta property="og:title" content="Создание рецепта" />
+          <title>Create a recipe</title>
+          <meta name="description" content="Foodgram - Create a recipe" />
+          <meta property="og:title" content="Create a recipe" />
         </MetaTags>
-        <Title title="Создание рецепта" />
+        <Title title="Create a recipe" />
         <Form
           className={styles.form}
           onSubmit={(e) => {
@@ -156,7 +156,7 @@ const RecipeCreate = ({ onEdit }) => {
                 }
                 if (ingredients) {
                   return setSubmitError({
-                    submitError: `Ингредиенты: ${
+                    submitError: `Ingredients: ${
                       ingredients
                         .filter((item) => Object.keys(item).length)
                         .map((item) => {
@@ -168,7 +168,7 @@ const RecipeCreate = ({ onEdit }) => {
                 }
                 if (cooking_time) {
                   return setSubmitError({
-                    submitError: `Время готовки: ${cooking_time[0]}`,
+                    submitError: `Cooking time: ${cooking_time[0]}`,
                   });
                 }
                 const errors = Object.values(err);
@@ -179,7 +179,7 @@ const RecipeCreate = ({ onEdit }) => {
           }}
         >
           <Input
-            label="Название рецепта"
+            label="Recipe name"
             onChange={(e) => {
               setSubmitError({ submitError: "" });
               setIngredientError("");
@@ -189,9 +189,9 @@ const RecipeCreate = ({ onEdit }) => {
             className={styles.mb36}
           />
           <CheckboxGroup
-            label="Теги"
+            label="Tags"
             values={value}
-            emptyText="Нет загруженных тегов"
+            emptyText="No tags loaded"
             className={styles.checkboxGroup}
             labelClassName={styles.checkboxGroupLabel}
             tagsClassName={styles.checkboxGroupTags}
@@ -201,10 +201,10 @@ const RecipeCreate = ({ onEdit }) => {
           <div className={styles.ingredients}>
             <div className={styles.ingredientsInputs}>
               <Input
-                label="Ингредиенты"
+                label="Ingredients"
                 className={styles.ingredientsNameInput}
                 inputClassName={styles.ingredientsInput}
-                placeholder="Начните вводить название"
+                placeholder="Start typing a name"
                 labelClassName={styles.ingredientsLabel}
                 onChange={(e) => {
                   setSubmitError({ submitError: "" });
@@ -221,7 +221,7 @@ const RecipeCreate = ({ onEdit }) => {
                 value={ingredientValue.name}
               />
               <div className={styles.ingredientsAmountInputContainer}>
-                <p className={styles.amountText}>в количестве </p>
+                <p className={styles.amountText}>amount </p>
                 <Input
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
@@ -262,7 +262,7 @@ const RecipeCreate = ({ onEdit }) => {
               )}
             </div>
             <div className={styles.ingredientAdd} onClick={handleAddIngredient}>
-              Добавить ингредиент
+              Add ingredient
             </div>
             {ingredientError && (
               <p className={cn(styles.error, styles.errorIngredient)}>
@@ -300,7 +300,7 @@ const RecipeCreate = ({ onEdit }) => {
           </div>
           <div className={styles.cookingTime}>
             <Input
-              label="Время приготовления"
+              label="Cooking time"
               className={styles.ingredientsTimeInput}
               labelClassName={styles.cookingTimeLabel}
               inputClassName={styles.ingredientsTimeValue}
@@ -311,15 +311,15 @@ const RecipeCreate = ({ onEdit }) => {
               value={recipeTime}
               placeholder="0"
             />
-            <div className={styles.cookingTimeUnit}>мин.</div>
+            <div className={styles.cookingTimeUnit}>min</div>
           </div>
           <Textarea
-            label="Описание рецепта"
+            label="Recipe description"
             onChange={(e) => {
               const value = e.target.value;
               setRecipeText(value);
             }}
-            placeholder="Опишите действия"
+            placeholder="Describe the steps"
           />
           <FileInput
             onChange={(file) => {
@@ -328,10 +328,10 @@ const RecipeCreate = ({ onEdit }) => {
             fileTypes={["image/png", "image/jpeg"]}
             fileSize={5000}
             className={styles.fileInput}
-            label="Загрузить фото"
+            label="Upload photo"
           />
           <Button modifier="style_dark" type="submit" className={styles.button}>
-            Создать рецепт
+            Create recipe
           </Button>
           {submitError.submitError && (
             <p className={styles.error}>{submitError.submitError}</p>

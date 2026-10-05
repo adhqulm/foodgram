@@ -1,4 +1,4 @@
-"""Административная конфигурация приложения пользователей."""
+"""Admin configuration for the users app."""
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -8,7 +8,7 @@ from .models import Subscription, User
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    """Админка для пользователей."""
+    """Admin for users."""
 
     list_display = (
         'id',
@@ -24,7 +24,7 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
-    """Админка для подписок."""
+    """Admin for subscriptions."""
 
     list_display = ('id', 'user', 'author')
     search_fields = ('user__username', 'author__username')

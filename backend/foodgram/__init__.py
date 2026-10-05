@@ -1,1 +1,1 @@
-"""Главный пакет приложения Foodgram."""
+"""Main package of the Foodgram project."""

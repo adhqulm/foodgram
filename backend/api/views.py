@@ -1,4 +1,4 @@
-"""Представления API."""
+"""API views."""
 
 from django.db.models import Sum
 from django.http import HttpResponse
@@ -25,7 +25,7 @@ from .serializers import (
 
 
 class CustomUserViewSet(UserViewSet):
-    """ViewSet для пользователей."""
+    """ViewSet for users."""
 
     @action(
         detail=False,
@@ -33,7 +33,7 @@ class CustomUserViewSet(UserViewSet):
         permission_classes=[IsAuthenticated]
     )
     def subscriptions(self, request):
-        """Получение списка подписок."""
+        """Get the list of subscriptions."""
         user = request.user
         subscriptions = User.objects.filter(following__user=user)
         page = self.paginate_queryset(subscriptions)
@@ -57,19 +57,19 @@ class CustomUserViewSet(UserViewSet):
         permission_classes=[IsAuthenticated]
     )
     def subscribe(self, request, id=None):
-        """Подписка/отписка на/от автора."""
+        """Subscribe to or unsubscribe from an author."""
         user = request.user
         author = self.get_object()
 
         if request.method == 'POST':
             if user == author:
                 return Response(
-                    {'errors': 'Нельзя подписаться на самого себя.'},
+                    {'errors': 'You cannot subscribe to yourself.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             if user.follower.filter(author=author).exists():
                 return Response(
-                    {'errors': 'Вы уже подписаны на этого автора.'},
+                    {'errors': 'You are already subscribed to this author.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             Subscription.objects.create(user=user, author=author)
@@ -83,7 +83,7 @@ class CustomUserViewSet(UserViewSet):
             subscription = user.follower.filter(author=author)
             if not subscription.exists():
                 return Response(
-                    {'errors': 'Вы не подписаны на этого автора.'},
+                    {'errors': 'You are not subscribed to this author.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             subscription.delete()
@@ -96,7 +96,7 @@ class CustomUserViewSet(UserViewSet):
         url_path='me/avatar'
     )
     def avatar(self, request):
-        """Добавление/удаление аватара."""
+        """Add or remove the avatar."""
         user = request.user
 
         if request.method == 'PUT':
@@ -116,7 +116,7 @@ class CustomUserViewSet(UserViewSet):
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
-    """ViewSet для тегов."""
+    """ViewSet for tags."""
 
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
@@ -124,7 +124,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
-    """ViewSet для ингредиентов."""
+    """ViewSet for ingredients."""
 
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
@@ -134,7 +134,7 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
-    """ViewSet для рецептов."""
+    """ViewSet for recipes."""
 
     queryset = Recipe.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly)
@@ -142,13 +142,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
     filterset_class = RecipeFilter
 
     def get_serializer_class(self):
-        """Выбор сериализатора в зависимости от действия."""
+        """Choose the serializer based on the action."""
         if self.action in ('create', 'update', 'partial_update'):
             return RecipeCreateSerializer
         return RecipeSerializer
 
     def perform_create(self, serializer):
-        """Создание рецепта с автором."""
+        """Create a recipe with the current user as author."""
         serializer.save(author=self.request.user)
 
     @action(
@@ -157,14 +157,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=[IsAuthenticated]
     )
     def favorite(self, request, pk=None):
-        """Добавление/удаление рецепта в/из избранное/го."""
+        """Add a recipe to or remove it from favorites."""
         recipe = self.get_object()
         user = request.user
 
         if request.method == 'POST':
             if user.favorites.filter(recipe=recipe).exists():
                 return Response(
-                    {'errors': 'Рецепт уже добавлен в избранное.'},
+                    {'errors': 'Recipe is already in favorites.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             Favorite.objects.create(user=user, recipe=recipe)
@@ -175,7 +175,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             favorite = user.favorites.filter(recipe=recipe)
             if not favorite.exists():
                 return Response(
-                    {'errors': 'Рецепт не был добавлен в избранное.'},
+                    {'errors': 'Recipe is not in favorites.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             favorite.delete()
@@ -187,14 +187,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=[IsAuthenticated]
     )
     def shopping_cart(self, request, pk=None):
-        """Добавление/удаление рецепта в/из список/ка покупок."""
+        """Add a recipe to or remove it from the shopping cart."""
         recipe = self.get_object()
         user = request.user
 
         if request.method == 'POST':
             if user.shopping_cart.filter(recipe=recipe).exists():
                 return Response(
-                    {'errors': 'Рецепт уже добавлен в список покупок.'},
+                    {'errors': 'Recipe is already in the shopping cart.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             ShoppingCart.objects.create(user=user, recipe=recipe)
@@ -205,7 +205,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             shopping_cart = user.shopping_cart.filter(recipe=recipe)
             if not shopping_cart.exists():
                 return Response(
-                    {'errors': 'Рецепт не был добавлен в список покупок.'},
+                    {'errors': 'Recipe is not in the shopping cart.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             shopping_cart.delete()
@@ -217,7 +217,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=[IsAuthenticated]
     )
     def download_shopping_cart(self, request):
-        """Скачивание списка покупок."""
+        """Download the shopping list."""
         user = request.user
         ingredients = RecipeIngredient.objects.filter(
             recipe__shopping_cart__user=user
@@ -228,7 +228,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             total_amount=Sum('amount')
         ).order_by('ingredient__name')
 
-        shopping_list = 'Список покупок:\n\n'
+        shopping_list = 'Shopping list:\n\n'
         for ingredient in ingredients:
             shopping_list += (
                 f"{ingredient['ingredient__name']} "
@@ -248,7 +248,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         url_path='get-link'
     )
     def get_link(self, request, pk=None):
-        """Получение короткой ссылки на рецепт."""
+        """Get a short link to the recipe."""
         recipe = self.get_object()
         short_link = request.build_absolute_uri(f'/recipes/{recipe.id}/')
         return Response({'short-link': short_link}, status=status.HTTP_200_OK)

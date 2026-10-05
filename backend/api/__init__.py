@@ -1,1 +1,1 @@
-"""Главный пакет приложения API."""
+"""Main package of the API app."""

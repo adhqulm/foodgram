@@ -1,4 +1,4 @@
-"""Конфигурация URL-адреса для проекта Foodgram."""
+"""URL configuration for the Foodgram project."""
 
 from django.conf import settings
 from django.conf.urls.static import static

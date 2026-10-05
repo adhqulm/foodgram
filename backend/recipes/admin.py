@@ -1,4 +1,4 @@
-"""Административная конфигурация приложения рецептов."""
+"""Admin configuration for the recipes app."""
 
 from django.contrib import admin
 
@@ -8,7 +8,7 @@ from .models import (
 
 
 class RecipeIngredientInline(admin.TabularInline):
-    """Инлайн для ингредиентов в рецепте."""
+    """Inline for ingredients in a recipe."""
 
     model = RecipeIngredient
     extra = 1
@@ -17,7 +17,7 @@ class RecipeIngredientInline(admin.TabularInline):
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    """Админка для тегов."""
+    """Admin for tags."""
 
     list_display = ('id', 'name', 'slug')
     search_fields = ('name', 'slug')
@@ -26,7 +26,7 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
-    """Админка для ингредиентов."""
+    """Admin for ingredients."""
 
     list_display = ('id', 'name', 'measurement_unit')
     search_fields = ('name',)
@@ -35,7 +35,7 @@ class IngredientAdmin(admin.ModelAdmin):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    """Админка для рецептов."""
+    """Admin for recipes."""
 
     list_display = (
         'id',
@@ -49,15 +49,15 @@ class RecipeAdmin(admin.ModelAdmin):
     inlines = (RecipeIngredientInline,)
 
     def get_favorites_count(self, obj):
-        """Получение количества добавлений в избранное."""
+        """Get how many times the recipe was favorited."""
         return obj.favorites.count()
 
-    get_favorites_count.short_description = 'В избранном'
+    get_favorites_count.short_description = 'In favorites'
 
 
 @admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
-    """Админка для избранного."""
+    """Admin for favorites."""
 
     list_display = ('id', 'user', 'recipe')
     search_fields = ('user__username', 'recipe__name')
@@ -66,7 +66,7 @@ class FavoriteAdmin(admin.ModelAdmin):
 
 @admin.register(ShoppingCart)
 class ShoppingCartAdmin(admin.ModelAdmin):
-    """Админка для списка покупок."""
+    """Admin for shopping carts."""
 
     list_display = ('id', 'user', 'recipe')
     search_fields = ('user__username', 'recipe__name')
