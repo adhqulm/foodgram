@@ -1,0 +1,10 @@
+"""Конфигурация приложения рецептов."""
+
+from django.apps import AppConfig
+
+
+class RecipesConfig(AppConfig):
+    """Класс конфигурации приложения рецептов."""
+
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'recipes'
